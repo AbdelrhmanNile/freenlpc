@@ -1,1 +1,1 @@
-from freenlpc import FreeNlpc
+from src.freenlpc import FreeNlpc
