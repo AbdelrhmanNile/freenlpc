@@ -1,6 +1,7 @@
 from operator import itemgetter
 import nlpcloud
 import requests
+from time import sleep
 
 class FreeNlpc:
     def __init__(self, api_keys: list, gpu: bool=False, lang: str="en") -> None:
@@ -38,6 +39,7 @@ class FreeNlpc:
     def classification(self, text: str, lables: list, multiclass: bool =True):
         while True:
             try:
+                sleep(2)
                 response = self.__models["classification"].classification(text, lables, multiclass)
                 result = []
                 for i in range(len(response['labels'])):
@@ -55,6 +57,7 @@ class FreeNlpc:
     def dialog_sum(self, dialog: str):
         while True:
             try:
+                sleep(2)
                 return self.__models["dialog_sum"].summarization(dialog)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -62,13 +65,15 @@ class FreeNlpc:
     def headline_gen(self, text: str):
         while True:
             try:
+                sleep(2)
                 return self.__models["headline_gen"].summarization(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
     def entities_extraction(self, text: str): 
         while True:
-            try:       
+            try:
+                sleep(2)
                 return self.__models["entity_extraction"].entities(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -76,6 +81,7 @@ class FreeNlpc:
     def qa(self, question: str, context: str):
         while True:
             try:
+                sleep(2)
                 return self.__models["qa"].question(question=question, context=context)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -83,6 +89,7 @@ class FreeNlpc:
     def semantic_similarity(self, texts: list):
         while True:
             try:
+                sleep(2)
                 return self.__models["semantic_similarity"].semantic_similarity(texts)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -90,6 +97,7 @@ class FreeNlpc:
     def sentiment_pos_neg(self, text: str):
         while True:
             try:
+                sleep(2)
                 response = self.__models["sentiment_pos_neg"].sentiment(text)
                 return response
             except requests.exceptions.HTTPError:
@@ -98,6 +106,7 @@ class FreeNlpc:
     def sentiment_emotions(self, text: str):
         while True:
             try:
+                sleep(2)
                 response = self.__models["sentiment_emotions"].sentiment(text)["scored_labels"]
                 ordered = sorted(response, key=itemgetter('score'), reverse=True)
                 return {'scored_labels': ordered}
@@ -107,6 +116,7 @@ class FreeNlpc:
     def summarization(self, text: str):
         while True:
             try:
+                sleep(2)
                 return self.__models["summarization"].summarization(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -114,6 +124,7 @@ class FreeNlpc:
     def embeddings(self, texts: list):
         while True:
             try:
+                sleep(2)
                 return self.__models["semantic_similarity"].embeddings(texts)
             except requests.exceptions.HTTPError:
                 self.__init_api()
