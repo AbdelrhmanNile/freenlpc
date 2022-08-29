@@ -19,7 +19,7 @@ setup(
         "Development Status :: Deploying",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
-        "Operating System :: Linux",
+        "Operating System :: Unix",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
     ]
