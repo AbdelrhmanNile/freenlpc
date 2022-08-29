@@ -16,7 +16,7 @@ setup(
     install_requires=['nlpcloud'],
     keywords=['python', 'natural languge processing', 'nlp', 'deep learning', 'AI', 'GPT', 'LLMS', 'nlpcloud'],
     classifiers=[
-        "Development Status :: Deploying",
+        "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: Unix",
