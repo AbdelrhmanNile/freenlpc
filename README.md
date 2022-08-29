@@ -15,6 +15,8 @@ a wrapper for nlpcloud free-tier.
 - sentiment/emotions analysis
 - summarization
 - embeddings
+- translation
+- language detection
 
 # INSTALLATION
 ```
