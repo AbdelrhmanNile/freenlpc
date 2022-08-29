@@ -159,7 +159,13 @@ class FreeNlpc:
         while True:
             try:
                 sleep(2)
-                return self.__models["lang_detection"].langdetection(text)
+                response = self.__models["lang_detection"].langdetection(text)["languages"]
+                result = []
+                for i in response:
+                    lang = list(i.keys())[0]
+                    score = i[lang]
+                    result.append({'language': lang, 'score': score})
+                return {'scored_languages': result}
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
