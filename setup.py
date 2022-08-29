@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 DESCRIPTION = 'A wrapper for nlpcloud free-tier services with no requests per minute limits.'
 LONG_DESCRIPTION = """# freenlpc
 a wrapper for nlpcloud free-tier.
@@ -19,6 +19,8 @@ a wrapper for nlpcloud free-tier.
 - sentiment/emotions analysis
 - summarization
 - embeddings
+- translation
+- language detection
 
 # INSTALLATION
 ```
