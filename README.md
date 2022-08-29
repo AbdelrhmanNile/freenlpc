@@ -6,7 +6,7 @@ a wrapper for nlpcloud free-tier.
 - no rate limit per minute error, it will just keep on trying until it gets the response.
 - you can initialize it with more than one API token, if one reached the rate limit it will automatically switch to the other API token.
 
-# AVAILBLE APIs
+# AVAILBLE TASKS
 - classification
 - dialog summary
 - entity extraction
