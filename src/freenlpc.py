@@ -1,4 +1,3 @@
-from cgitb import reset
 from operator import itemgetter
 import nlpcloud
 import requests
