@@ -23,9 +23,23 @@ class FreeNlpc:
             "lang_detection": "python-langdetect"
         }
         self.activated_apikey = None
+        self.__check_keys()
         self.__init_api()
         
     
+    def __check_keys(self):
+        """check if API tokens passed to the constructor are valid.
+
+        Raises:
+            Exception: API Token at index {i} is not valid.
+        """
+        for i in range(len(self.__api_keys)):
+            try:
+                nlpcloud.Client(self.which_model("sentiment_pos_neg"),
+                            self.__api_keys[i], lang="en").sentiment("i hate physics")
+            except requests.exceptions.HTTPError:
+                raise Exception(f"API Token at index {i} is not valid.")
+            
     def which_model(self, task_name):
         """which model is being used for a specific task.
 
