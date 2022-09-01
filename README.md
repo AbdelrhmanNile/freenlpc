@@ -9,7 +9,8 @@ a wrapper for nlpcloud free-tier.
 # AVAILABLE TASKS
 - classification
 - dialog summary
-- entity extraction
+- headline generation
+- entities extraction
 - question answering
 - semantic similarity
 - sentiment/emotions analysis
