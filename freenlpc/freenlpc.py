@@ -20,7 +20,9 @@ class FreeNlpc:
             "summarization": "bart-large-cnn",
             "embeddings": "paraphrase-multilingual-mpnet-base-v2",
             "translation": "nllb-200-3-3b",
-            "lang_detection": "python-langdetect"
+            "lang_detection": "python-langdetect",
+            "tokenize": "en_core_web_lg",
+            "sentence_dependencies": "en_core_web_lg"
         }
         self.activated_apikey = None
         self.__check_keys()
@@ -73,7 +75,9 @@ class FreeNlpc:
                          "sentiment_emotions": nlpcloud.Client(self.which_model("sentiment_emotions"), api_key, gpu=self.__gpu, lang=self.__lang),
                          "summarization": nlpcloud.Client(self.which_model("summarization"), api_key, gpu=self.__gpu, lang=self.__lang),
                          "translation": nlpcloud.Client(self.which_model("translation"), api_key, gpu=self.__gpu),
-                         "lang_detection": nlpcloud.Client(self.which_model("lang_detection"), api_key)
+                         "lang_detection": nlpcloud.Client(self.which_model("lang_detection"), api_key),
+                         "tokenize": nlpcloud.Client(self.which_model("tokenize"), api_key),
+                         "sentence_dependencies": nlpcloud.Client(self.which_model("sentence_dependencies"), api_key)
                         }
         
     
@@ -91,8 +95,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                response = self.__models["classification"].classification(text, lables, multiclass)
+                sleep(1)
+                response = self.__models[self.classification.__name__].classification(text, lables, multiclass)
                 result = []
                 for i in range(len(response['labels'])):
                     info = {}
@@ -117,8 +121,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["dialog_sum"].summarization(dialog)
+                sleep(1)
+                return self.__models[self.dialog_sum.__name__].summarization(dialog)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -133,8 +137,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["headline_gen"].summarization(text)
+                sleep(1)
+                return self.__models[self.headline_gen.__name__].summarization(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -149,8 +153,8 @@ class FreeNlpc:
         """ 
         while True:
             try:
-                sleep(2)
-                return self.__models["entities_extraction"].entities(text)
+                sleep(1)
+                return self.__models[self.entities_extraction.__name__].entities(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -167,8 +171,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["qa"].question(question=question, context=context)
+                sleep(1)
+                return self.__models[self.qa.__name__].question(question=question, context=context)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -185,8 +189,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["semantic_similarity"].semantic_similarity(texts)
+                sleep(1)
+                return self.__models[self.semantic_similarity.__name__].semantic_similarity(texts)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -201,8 +205,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["sentiment_pos_neg"].sentiment(text)
+                sleep(1)
+                return self.__models[self.sentiment_pos_neg.__name__].sentiment(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -217,8 +221,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                response = self.__models["sentiment_emotions"].sentiment(text)["scored_labels"]
+                sleep(1)
+                response = self.__models[self.sentiment_emotions.__name__].sentiment(text)["scored_labels"]
                 ordered = sorted(response, key=itemgetter('score'), reverse=True)
                 return {'scored_labels': ordered}
             except requests.exceptions.HTTPError:
@@ -235,15 +239,24 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["summarization"].summarization(text)
+                sleep(1)
+                return self.__models[self.summarization.__name__].summarization(text)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
     def embeddings(self, texts: list):
+        """calculate word embeddings. 
+
+        Args:
+            texts (list): The pieces of text you want to analyze.
+                The list can contain 50 elements maximum. Each element should contain 128 tokens maximum.
+
+        Returns:
+            dict: embeddings
+        """
         while True:
             try:
-                sleep(2)
+                sleep(1)
                 return self.__models["semantic_similarity"].embeddings(texts)
             except requests.exceptions.HTTPError:
                 self.__init_api()
@@ -266,8 +279,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                return self.__models["translation"].translation(text, source_lang, target_lang)
+                sleep(1)
+                return self.__models[self.translation.__name__].translation(text, source_lang, target_lang)
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
@@ -282,8 +295,8 @@ class FreeNlpc:
         """
         while True:
             try:
-                sleep(2)
-                response = self.__models["lang_detection"].langdetection(text)["languages"]
+                sleep(1)
+                response = self.__models[self.lang_detection.__name__].langdetection(text)["languages"]
                 result = []
                 for i in response:
                     lang = list(i.keys())[0]
@@ -291,7 +304,40 @@ class FreeNlpc:
                     result.append({'language': lang, 'score': score})
                 return {'scored_languages': result}
             except requests.exceptions.HTTPError:
-                self.__init_api()        
+                self.__init_api()
+    
+    def tokenize(self, text: str):
+        """tokenize and lemmatize a text
+
+        Args:
+            text (str): The sentence containing the tokens to extract. 350 tokens maximum.
+
+        Returns:
+            dict: tokens
+        """
+        while True:
+            try:
+                sleep(1)
+                return self.__models[self.tokenize.__name__].tokens(text)
+            except requests.exceptions.HTTPError:
+                self.__init_api()
+    
+    def sentence_dependencies(self, text: str):
+        """perform Part-of-Speech (POS) tagging.
+        
+        Args:
+            text (str): The sentences containing parts of speech to extract. 350 tokens maximum.
+
+        Returns:
+            dict: sentence dependencies.
+        """
+        while True:
+            try:
+                sleep(1)
+                return self.__models[self.sentence_dependencies.__name__].sentence_dependencies(text)
+            except requests.exceptions.HTTPError:
+                self.__init_api()
+                       
     
     def __repr__(self) -> str:
         tasks = list(self.__task_model.keys())

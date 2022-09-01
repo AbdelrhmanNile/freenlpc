@@ -17,6 +17,8 @@ a wrapper for nlpcloud free-tier.
 - embeddings
 - translation
 - language detection
+- tokenization and lemmatization
+- sentence dependencies
 
 # INSTALLATION
 ```
