@@ -40,8 +40,10 @@ class FreeNlpc:
             try:
                 nlpcloud.Client(self.which_model("sentiment_pos_neg"),
                             self.__api_keys[i], lang="en").sentiment("i hate physics")
-            except requests.exceptions.HTTPError:
-                raise Exception(f"API Token at index {i} is not valid.")
+            except requests.exceptions.HTTPError as e:
+                if str(e).find("Unauthorized") != -1:
+                    raise Exception(
+                        f"API Token at index {i} is not valid.")
             
     def which_model(self, task_name):
         """which model is being used for a specific task.
