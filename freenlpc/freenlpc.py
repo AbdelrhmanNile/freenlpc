@@ -83,12 +83,12 @@ class FreeNlpc:
                         }
         
     
-    def classification(self, text: str, lables: list, multiclass: bool =True):
+    def classification(self, text: str, labels: list, multiclass: bool =True):
         """perform classification on a piece of text.
 
         Args:
             text (str): The block of text you want to analyze. 2,500 tokens maximum.
-            lables (list): A list of labels you want to use to classify your text. 25 labels maximum.
+            labels (list): A list of labels you want to use to classify your text. 25 labels maximum.
             multiclass (bool, optional): Whether multiple labels should be applied to your text,
                 meaning that the model will calculate an independent score for each label. Defaults to True.
 
@@ -98,7 +98,7 @@ class FreeNlpc:
         while True:
             try:
                 sleep(1)
-                response = self.__models[self.classification.__name__].classification(text, lables, multiclass)
+                response = self.__models[self.classification.__name__].classification(text, labels, multiclass)
                 result = []
                 for i in range(len(response['labels'])):
                     info = {}
@@ -111,12 +111,12 @@ class FreeNlpc:
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
-    def classification2(self, text: str, lables: list, multiclass: bool =True):
+    def classification2(self, text: str, labels: list, multiclass: bool =True):
         """perform classification on a piece of text.
 
         Args:
             text (str): The block of text you want to analyze. 2,500 tokens maximum.
-            lables (list): A list of labels you want to use to classify your text. 25 labels maximum.
+            labels (list): A list of labels you want to use to classify your text. 25 labels maximum.
             multiclass (bool, optional): Whether multiple labels should be applied to your text,
                 meaning that the model will calculate an independent score for each label. Defaults to True.
 
