@@ -10,6 +10,7 @@ class FreeNlpc:
         self.__lang = lang
         self.__task_model = {
             "classification": "bart-large-mnli-yahoo-answers",
+            "classification2": "xlm-roberta-large-xnli",
             "dialog_sum": "bart-large-samsum",
             "headline_gen": "t5-base-en-generate-headline",
             "entities_extraction": "en_core_web_lg",
@@ -66,6 +67,7 @@ class FreeNlpc:
         api_key = self.__api_keys[self.activated_apikey]
         
         self.__models = {"classification": nlpcloud.Client(self.which_model("classification"), api_key, gpu=self.__gpu, lang=self.__lang),
+                         "classification2": nlpcloud.Client(self.which_model("classification2"), api_key, gpu=self.__gpu, lang=self.__lang),
                          "dialog_sum": nlpcloud.Client(self.which_model("dialog_sum"), api_key, gpu=self.__gpu, lang=self.__lang),
                          "headline_gen":nlpcloud.Client(self.which_model("headline_gen"), api_key, gpu=self.__gpu, lang=self.__lang),
                          "entities_extraction": nlpcloud.Client(self.which_model("entities_extraction"), api_key, gpu=self.__gpu, lang=self.__lang),
@@ -97,6 +99,35 @@ class FreeNlpc:
             try:
                 sleep(1)
                 response = self.__models[self.classification.__name__].classification(text, lables, multiclass)
+                result = []
+                for i in range(len(response['labels'])):
+                    info = {}
+                    info['label'] = response['labels'][i]
+                    info['score'] = response['scores'][i]
+                    result.append(info)
+        
+                ordered = sorted(result, key=itemgetter('score'), reverse=True)
+                return {'scored_labels': ordered}
+            except requests.exceptions.HTTPError:
+                self.__init_api()
+    
+    def classification2(self, text: str):
+        """perform classification on a piece of text.
+
+        Args:
+            text (str): The block of text you want to analyze. 2,500 tokens maximum.
+            lables (list): A list of labels you want to use to classify your text. 25 labels maximum.
+            multiclass (bool, optional): Whether multiple labels should be applied to your text,
+                meaning that the model will calculate an independent score for each label. Defaults to True.
+
+
+        Returns:
+            dict: scored labels.
+        """
+        while True:
+            try:
+                sleep(1)
+                response = self.__models[self.classification2.__name__].classification(text)
                 result = []
                 for i in range(len(response['labels'])):
                     info = {}
