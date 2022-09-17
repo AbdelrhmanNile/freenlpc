@@ -44,8 +44,6 @@ class FreeNlpc:
                 if str(e).find("Unauthorized") != -1:
                     raise Exception(
                         f"NLPCLOUD API Token at index {i} is not valid.")
-                else:
-                    raise e
             
     def which_model(self, task_name):
         """which model is being used for a specific task.
