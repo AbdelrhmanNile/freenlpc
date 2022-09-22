@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.1.9'
+VERSION = '0.2.0'
 DESCRIPTION = 'A wrapper for nlpcloud free-tier services with no requests per minute limits.'
 LONG_DESCRIPTION = """# freenlpc
 a wrapper for nlpcloud free-tier.
@@ -49,7 +49,7 @@ setup(
     long_description_content_type="text/markdown",
     long_description=LONG_DESCRIPTION,
     packages=find_packages(),
-    install_requires=['nlpcloud'],
+    install_requires=['requests'],
     keywords=['python', 'natural languge processing', 'nlp', 'deep learning', 'AI', 'GPT', 'LLMS', 'nlpcloud'],
     classifiers=[
         "Development Status :: 1 - Planning",

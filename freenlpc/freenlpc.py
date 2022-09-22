@@ -1,5 +1,5 @@
 from operator import itemgetter
-import nlpcloud
+import nlpcloudd as nlpcloud
 import requests
 from time import sleep
 
@@ -41,7 +41,7 @@ class FreeNlpc:
                 nlpcloud.Client(self.which_model("sentiment_pos_neg"),
                             self.__api_keys[i], lang="en").sentiment("this pizze is good")
             except requests.exceptions.HTTPError as e:
-                if str(e).find("Unauthorized") != -1:
+                if str(e).find("Unauthorized") != -1 or str(e).find("Forbidden") != -1:
                     raise Exception(
                         f"NLPCLOUD API Token at index {i} is not valid.")
             
@@ -258,7 +258,8 @@ class FreeNlpc:
                 response = self.__models[self.sentiment_emotions.__name__].sentiment(text)["scored_labels"]
                 ordered = sorted(response, key=itemgetter('score'), reverse=True)
                 return {'scored_labels': ordered}
-            except requests.exceptions.HTTPError:
+            except requests.exceptions.HTTPError as e:
+                print(e)
                 self.__init_api()
     
     def summarization(self, text: str):
@@ -290,7 +291,8 @@ class FreeNlpc:
         while True:
             try:
                 sleep(1)
-                return self.__models["semantic_similarity"].embeddings(texts)
+                response = self.__models["semantic_similarity"].embeddings(texts)
+                return response
             except requests.exceptions.HTTPError:
                 self.__init_api()
     
