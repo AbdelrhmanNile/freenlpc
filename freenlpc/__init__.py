@@ -1,2 +1,2 @@
-from . import nlpcloudd as nlpcloud
+import freenlpc.nlpcloudd as nlpcloud
 from freenlpc.freenlpc import FreeNlpc
