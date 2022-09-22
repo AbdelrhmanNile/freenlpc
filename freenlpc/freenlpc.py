@@ -1,5 +1,5 @@
 from operator import itemgetter
-from . import nlpcloudd as nlpcloud
+import nlpcloudd as nlpcloud
 import requests
 from time import sleep
 

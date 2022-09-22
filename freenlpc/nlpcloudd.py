@@ -9,7 +9,7 @@ class Client:
     def __init__(self, model, token, gpu=False, lang=""):
         self.headers = {
             "Authorization": "Token " + token,
-            "User-Agent": "nlpcloud-python-client"
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4298.0 Safari/537.36"
         }
         if lang == "en":
             lang = ""
